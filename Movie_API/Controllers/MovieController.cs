@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using Movie_API.Models;
 using Movie_API.Models.Value_Object;
 using Movie_API.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Movie_API.Controllers
 {
@@ -16,12 +17,15 @@ namespace Movie_API.Controllers
         {
             _movieService = movieService;
         }
+
         [HttpGet]
+        [SwaggerOperation(Summary ="Get First 100 Movies")]
         public IList<Movie> Get()
         {
             return _movieService.GetMovies();
         }
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get Movie By ID")]
         public IActionResult GetById(string id)
         {
           var movie = _movieService.GetMovieById(id);
@@ -32,6 +36,7 @@ namespace Movie_API.Controllers
             return Ok(movie);
         }
         [HttpPost]
+        [SwaggerOperation(Summary = "Add Movie")]
         public IActionResult AddMovie([FromBody]MovieInformation movie)
         {
             var movie_Id = ObjectId.GenerateNewId().ToString();
@@ -47,6 +52,7 @@ namespace Movie_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [SwaggerOperation(Summary = "Update Movie By ID")]
         public IActionResult UpdateMovie([FromForm]MovieInformation updateMovie,string id)
         {
             var movie = _movieService.GetMovieById(id);
@@ -70,6 +76,7 @@ namespace Movie_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Delete Movie By ID")]
         public IActionResult DeleteMovie(string id)
         {
             var movie = _movieService.GetMovieById(id);
