@@ -19,7 +19,7 @@ namespace Movie_API.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary ="Get First 100 Movies")]
+        [SwaggerOperation(Summary = "Get First 100 Movies")]
         public IList<Movie> Get()
         {
             return _movieService.GetMovies();
@@ -28,8 +28,8 @@ namespace Movie_API.Controllers
         [SwaggerOperation(Summary = "Get Movie By ID")]
         public IActionResult GetById(string id)
         {
-          var movie = _movieService.GetMovieById(id);
-            if(movie == null)
+            var movie = _movieService.GetMovieById(id);
+            if (movie == null)
             {
                 return NotFound();
             }
@@ -37,26 +37,26 @@ namespace Movie_API.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Add Movie")]
-        public IActionResult AddMovie([FromBody]MovieInformation movie)
+        public IActionResult AddMovie([FromBody] MovieInformation movie)
         {
             var movie_Id = ObjectId.GenerateNewId().ToString();
-            
-            if(!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            
-            _movieService.AddMovie(movie,movie_Id);
+
+            _movieService.AddMovie(movie, movie_Id);
             return StatusCode(201);
-            
+
         }
 
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update Movie By ID")]
-        public IActionResult UpdateMovie([FromForm]MovieInformation updateMovie,string id)
+        public IActionResult UpdateMovie([FromForm] MovieInformation updateMovie, string id)
         {
             var movie = _movieService.GetMovieById(id);
-            if(movie == null)
+            if (movie == null)
             {
                 return NotFound();
             }
@@ -74,6 +74,22 @@ namespace Movie_API.Controllers
             _movieService.UpdateMovie(movie);
             return Ok();
         }
+
+        [HttpPatch("{id}")]
+        [SwaggerOperation(Summary = "Update Movie Duration By ID")]
+        public IActionResult UpdateMovieDuration([FromForm] MovieDuration movieDuration, string id)
+        {
+            var movie = _movieService.GetMovieById(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            movie.Duration = movieDuration.Duration != default ? movieDuration.Duration : movie.Duration;
+            _movieService.UpdateMovie(movie);
+            return Ok();
+        }
+
+
 
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete Movie By ID")]
