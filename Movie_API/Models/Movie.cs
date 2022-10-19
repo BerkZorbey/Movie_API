@@ -1,23 +1,40 @@
-﻿using System.Text.Json.Serialization;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Movie_API.Models
 {
     public class Movie
     {
-        [JsonPropertyName("show_id")]
-        public string Id { get; set; }
-        public string Type { get; set; }
-        public string Title { get; set; }
-        public string[] Cast { get; set; }
-        public string Country { get; set; }
-        [JsonPropertyName("date_added")]
-        public string Date_Added { get; set; }
-        [JsonPropertyName("release_year")]
-        public int Release_Year { get; set; }
-        public string Rating { get; set; }
-        public string Duration { get; set; }
-        [JsonPropertyName("listed_in")]
-        public string[] Listed_In { get; set; }
-        public string Description { get; set; }
+        
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } 
+        [BsonElement("type")]
+        public string? Type { get; set; }
+        [BsonElement("title")]
+        public string? Title { get; set; }
+        [BsonElement("director")]
+        public string? Director { get; set; }
+        [BsonElement("cast")] 
+        public string? Cast { get; set; }
+        [BsonElement("country")]
+        public string? Country { get; set; }
+        [BsonElement("date_added")]
+        public string? Date_Added { get; set; }
+        [BsonElement("release_year")]
+        public int? Release_Year { get; set; }
+        [BsonElement("rating")]
+        public string? Rating { get; set; }
+        [BsonElement("duration")]
+        public string? Duration { get; set; }
+        [BsonElement("listed_in")]
+        public string? Listed_In { get; set; }
+        [BsonElement("description")]
+        public string? Description { get; set; }
+
+        
     }
 }
