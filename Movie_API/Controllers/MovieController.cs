@@ -20,9 +20,9 @@ namespace Movie_API.Controllers
 
         [HttpGet]
         [SwaggerOperation(Summary = "Get First 100 Movies")]
-        public IList<Movie> Get()
+        public IList<Movie> Get([FromQuery] PagingQuery query)
         {
-            return _movieService.GetMovies();
+            return _movieService.GetMovies(query);
         }
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get Movie By ID")]

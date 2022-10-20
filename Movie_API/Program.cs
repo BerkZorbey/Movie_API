@@ -1,3 +1,4 @@
+using Movie_API.Models;
 using Movie_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<MovieService>();
+
 
 var app = builder.Build();
 

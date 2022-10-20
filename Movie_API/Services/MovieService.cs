@@ -15,9 +15,11 @@ namespace Movie_API.Services
             _movies = database.GetCollection<Movie>("Movies");
         }
 
-        public List<Movie> GetMovies()
+        public List<Movie> GetMovies(PagingQuery query)
         {
-            return _movies.Find(movie => true).Limit(100).ToList();
+            PagingResultModel<Movie> movies = new PagingResultModel<Movie>(query);
+            movies.GetData(_movies.AsQueryable<Movie>());
+            return movies;
         } 
         public Movie GetMovieById(string id)
         {
