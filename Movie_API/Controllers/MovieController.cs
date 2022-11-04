@@ -37,7 +37,7 @@ namespace Movie_API.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Add Movie")]
-        public IActionResult AddMovie([FromBody] MovieInformation movie)
+        public IActionResult AddMovie([FromBody] Movie movie)
         {
             var movie_Id = ObjectId.GenerateNewId().ToString();
 

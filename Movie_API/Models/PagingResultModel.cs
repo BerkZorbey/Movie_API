@@ -1,6 +1,6 @@
 ﻿using Movie_API.Models.Value_Object;
 
-namespace Movie_API.Services
+namespace Movie_API.Models
 {
     public class PagingResultModel<T> : List<T>
     {
@@ -19,7 +19,7 @@ namespace Movie_API.Services
             Result.CurrentPage = Params.Page;
             Result.NextPage = Result.CurrentPage <= Result.TotalPages ? Result.CurrentPage + 1 : Result.CurrentPage;
             Result.PreviousPage = Result.CurrentPage == 1 ? Result.CurrentPage : Result.CurrentPage - 1;
-            var result = query.Skip((Params.Page-1)*Params.PageSize).Take(Params.PageSize).ToList();
+            var result = query.Skip((Params.Page - 1) * Params.PageSize).Take(Params.PageSize).ToList();
 
             if (!string.IsNullOrWhiteSpace(Params.Sort))
             {
@@ -28,7 +28,7 @@ namespace Movie_API.Services
                 var property = entity.GetProperty(Params.Sort);
                 if ((int)Params.SortingDirection == 1)
                 {
-                    result = result.OrderBy(x=>property.GetValue(x,null)).ToList();
+                    result = result.OrderBy(x => property.GetValue(x, null)).ToList();
                 }
                 else
                 {
@@ -36,8 +36,8 @@ namespace Movie_API.Services
                 }
 
             }
-            
-            
+
+
             AddRange(result);
         }
 

@@ -25,7 +25,7 @@ namespace Movie_API.Services
         {
             return _movies.Find(x=>x.Id == id).FirstOrDefault();
         }
-        public Movie AddMovie(MovieInformation movie,string movie_Id)
+        public Movie AddMovie(Movie movie,string movie_Id)
         {
             Movie newMovie = new Movie()
             {

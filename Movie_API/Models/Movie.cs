@@ -11,7 +11,7 @@ namespace Movie_API.Models
         
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; } 
+        public string? Id { get; set; } 
         [BsonElement("type")]
         public string? Type { get; set; }
         [BsonElement("title")]
