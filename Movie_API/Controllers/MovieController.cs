@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Movie_API.Models;
+using Movie_API.Models.DTOs;
 using Movie_API.Models.Value_Object;
 using Movie_API.Services;
 using Swashbuckle.AspNetCore.Annotations;
@@ -13,9 +15,12 @@ namespace Movie_API.Controllers
     public class MovieController : ControllerBase
     {
         private readonly MovieService _movieService;
-        public MovieController(MovieService movieService)
+        private readonly IMapper _mapper;
+       
+        public MovieController(MovieService movieService,IMapper mapper)
         {
             _movieService = movieService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -37,7 +42,7 @@ namespace Movie_API.Controllers
         }
         [HttpPost]
         [SwaggerOperation(Summary = "Add Movie")]
-        public IActionResult AddMovie([FromBody] Movie movie)
+        public IActionResult AddMovie([FromBody] MovieDetailDTO movie)
         {
             var movie_Id = ObjectId.GenerateNewId().ToString();
 
@@ -53,13 +58,14 @@ namespace Movie_API.Controllers
 
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update Movie By ID")]
-        public IActionResult UpdateMovie([FromForm] MovieInformation updateMovie, string id)
+        public IActionResult UpdateMovie([FromBody] MovieDetailDTO updateMovie, string id)
         {
             var movie = _movieService.GetMovieById(id);
             if (movie == null)
             {
                 return NotFound();
             }
+            
             movie.Type = updateMovie.Type != default ? updateMovie.Type : movie.Type;
             movie.Title = updateMovie.Title != default ? updateMovie.Title : movie.Title;
             movie.Director = updateMovie.Director != default ? updateMovie.Director : movie.Director;
@@ -77,8 +83,9 @@ namespace Movie_API.Controllers
 
         [HttpPatch("{id}")]
         [SwaggerOperation(Summary = "Update Movie Duration By ID")]
-        public IActionResult UpdateMovieDuration([FromForm] MovieDuration movieDuration, string id)
+        public IActionResult UpdateMovieDuration([FromBody] MovieDurationDTO movieDuration, string id)
         {
+            
             var movie = _movieService.GetMovieById(id);
             if (movie == null)
             {

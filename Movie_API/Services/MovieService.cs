@@ -1,6 +1,8 @@
-﻿using MongoDB.Bson;
+﻿using AutoMapper;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Movie_API.Models;
+using Movie_API.Models.DTOs;
 using Movie_API.Models.Value_Object;
 
 namespace Movie_API.Services
@@ -8,11 +10,13 @@ namespace Movie_API.Services
     public class MovieService
     {
         private readonly IMongoCollection<Movie> _movies;
-        public MovieService(IConfiguration configuration)
+        private readonly IMapper _mapper;
+        public MovieService(IConfiguration configuration, IMapper mapper)
         {
             MongoClient client = new MongoClient(configuration.GetConnectionString("MovieMongoDb"));
             IMongoDatabase database = client.GetDatabase("MovieDb");
             _movies = database.GetCollection<Movie>("Movies");
+            _mapper = mapper;
         }
 
         public List<Movie> GetMovies(PagingQuery query)
@@ -25,23 +29,10 @@ namespace Movie_API.Services
         {
             return _movies.Find(x=>x.Id == id).FirstOrDefault();
         }
-        public Movie AddMovie(Movie movie,string movie_Id)
+        public Movie AddMovie(MovieDetailDTO movie,string movie_Id)
         {
-            Movie newMovie = new Movie()
-            {
-                Id = movie_Id,
-                Type = movie.Type,
-                Title = movie.Title,
-                Cast = movie.Cast,
-                Date_Added = movie.Date_Added,
-                Description = movie.Description,
-                Country = movie.Country,
-                Rating = movie.Rating,
-                Director = movie.Director,
-                Duration = movie.Duration,
-                Listed_In = movie.Listed_In,
-                Release_Year = movie.Release_Year,
-            };
+            var newMovie = _mapper.Map<Movie>(movie);
+            newMovie.Id = movie_Id;
             _movies.InsertOne(newMovie);
             return newMovie;
         }

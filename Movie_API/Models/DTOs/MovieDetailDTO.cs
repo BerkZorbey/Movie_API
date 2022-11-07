@@ -1,6 +1,6 @@
-﻿namespace Movie_API.Models.Value_Object
+﻿namespace Movie_API.Models.DTOs
 {
-    public class MovieInformation
+    public class MovieDetailDTO
     {
         public string? Type { get; set; }
         public string? Title { get; set; }
