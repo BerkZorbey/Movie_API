@@ -7,6 +7,8 @@ using Movie_API.Models.DTOs;
 using Movie_API.Models.Value_Object;
 using Movie_API.Services;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Collections;
+using System.Text.Json;
 
 namespace Movie_API.Controllers
 {
@@ -25,9 +27,11 @@ namespace Movie_API.Controllers
 
         [HttpGet]
         [SwaggerOperation(Summary = "Get First 100 Movies")]
-        public IList<Movie> Get([FromQuery] PagingQuery query)
+        public IActionResult Get([FromQuery] PagingQuery query)
         {
-            return _movieService.GetMovies(query);
+            var movieList = _movieService.GetMovies(query);
+            
+            return Ok(new {data=movieList,paging=movieList.Result});
         }
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get Movie By ID")]

@@ -19,12 +19,13 @@ namespace Movie_API.Services
             _mapper = mapper;
         }
 
-        public List<Movie> GetMovies(PagingQuery query)
+        public PagingResultModel<Movie> GetMovies(PagingQuery query)
         {
             PagingResultModel<Movie> movies = new PagingResultModel<Movie>(query);
             movies.GetData(_movies.AsQueryable<Movie>());
             return movies;
-        } 
+        }
+        
         public Movie GetMovieById(string id)
         {
             return _movies.Find(x=>x.Id == id).FirstOrDefault();
