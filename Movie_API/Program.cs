@@ -24,10 +24,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         ValidateAudience = true,
         ValidateIssuer = true,
-        ValidAudience = builder.Configuration["Audience"],
-        ValidIssuer = builder.Configuration["Issuer"],
+        ValidAudience = builder.Configuration["JwtToken:Audience"],
+        ValidIssuer = builder.Configuration["JwtToken:Issuer"],
         ValidateLifetime = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtToken:Key"]))
     };
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,7 +38,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<MovieService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenGeneratorService>();
+builder.Services.AddScoped<ValidationService>();
 builder.Services.AddSingleton(mapper);
 
 

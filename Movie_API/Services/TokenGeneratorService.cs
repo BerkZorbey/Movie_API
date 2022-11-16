@@ -17,11 +17,11 @@ namespace Movie_API.Services
             Token token = new();
             var expiration = DateTime.Now.AddHours(1);
             token.TokenExpiration = expiration;
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Key"]));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtToken:Key"]));
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
-                issuer: _configuration["Issuer"],
-                audience: _configuration["Audience"],
+                issuer: _configuration["JwtToken:Issuer"],
+                audience: _configuration["JwtToken:Audience"],
                 notBefore: DateTime.Now,
                 expires: expiration,
                 signingCredentials: signingCredentials
