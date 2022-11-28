@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -14,17 +15,15 @@ namespace Movie_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MovieController : ControllerBase
+    public class MovieController : BaseController
     {
         private readonly MovieService _movieService;
-        private readonly IMapper _mapper;
        
-        public MovieController(MovieService movieService,IMapper mapper)
+        public MovieController(MovieService movieService)
         {
             _movieService = movieService;
-            _mapper = mapper;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         [SwaggerOperation(Summary = "Get First 100 Movies")]
         public IActionResult Get([FromQuery] PagingQuery query)
@@ -33,6 +32,7 @@ namespace Movie_API.Controllers
             
             return Ok(new {data=movieList,paging=movieList.Result});
         }
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get Movie By ID")]
         public IActionResult GetById(string id)
@@ -44,6 +44,7 @@ namespace Movie_API.Controllers
             }
             return Ok(movie);
         }
+        
         [HttpPost]
         [SwaggerOperation(Summary = "Add Movie")]
         public IActionResult AddMovie([FromBody] MovieDetailDTO movie)
@@ -59,7 +60,7 @@ namespace Movie_API.Controllers
             return StatusCode(201);
 
         }
-
+        
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update Movie By ID")]
         public IActionResult UpdateMovie([FromBody] MovieDetailDTO updateMovie, string id)
@@ -84,7 +85,7 @@ namespace Movie_API.Controllers
             _movieService.UpdateMovie(movie);
             return Ok();
         }
-
+        
         [HttpPatch("{id}")]
         [SwaggerOperation(Summary = "Update Movie Duration By ID")]
         public IActionResult UpdateMovieDuration([FromBody] MovieDurationDTO movieDuration, string id)
@@ -102,6 +103,7 @@ namespace Movie_API.Controllers
 
 
 
+        
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Delete Movie By ID")]
         public IActionResult DeleteMovie(string id)

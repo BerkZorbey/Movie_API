@@ -10,6 +10,9 @@ namespace Movie_API.Mapper
         public AutoMapperProfiles()
         {
             CreateMap<MovieDetailDTO, Movie>();
+            CreateMap<MovieDurationDTO, Movie>();
+            CreateMap<RegisterDTO, User>();
+            CreateMap<LoginDTO, User>();
         }
     }
 }
