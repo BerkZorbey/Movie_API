@@ -16,5 +16,6 @@ namespace Movie_API.Models
         public string? Password { get; set; }
         [BsonElement("Token")]
         public Token? Token { get; set; }
+        public bool isActivatedEmail { get; set; } = false;
     }
 }
