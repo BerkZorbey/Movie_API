@@ -18,30 +18,31 @@ namespace Movie_API.Controllers
         private readonly UserService _userService;
         private readonly TokenGeneratorService _tokenGeneratorService;
         
+        
         public LoginController(UserService userService, TokenGeneratorService tokenGeneratorService)
         {
             _userService = userService;
             _tokenGeneratorService = tokenGeneratorService;
+            
         }
 
 
         [ValidationFilter]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterDTO user)
+        public async Task<IActionResult> Register([FromBody]UserRegisterDTO user)
         {
             var user_Id = ObjectId.GenerateNewId().ToString();
             await _userService.AddUser(user, user_Id);
             
             return StatusCode(201);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("login")]
-        public IActionResult Login([FromQuery]LoginDTO loginUser)
+        public IActionResult Login([FromBody]UserLoginDTO loginUser)
         {
             var user = _userService.GetUser(loginUser);
             user.Token = _tokenGeneratorService.GenerateToken();
-            Request.Headers.Add("Authorization", "Bearer " + user.Token.AccessToken);    
             
             return Ok(user);
         }
