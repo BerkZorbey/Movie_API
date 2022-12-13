@@ -19,14 +19,14 @@ namespace Movie_API.Services
             
         }
         
-        public async Task<User> AddUser(RegisterDTO user,string user_ıd)
+        public async Task<User> AddUser(UserRegisterDTO user,string user_ıd)
         {
             var newUser = _mapper.Map<User>(user);
             newUser.Id = user_ıd;
             await _users.InsertOneAsync(newUser);
             return newUser;
         }
-        public User GetUser(LoginDTO loginUser)
+        public User GetUser(UserLoginDTO loginUser)
         {
             var userModel = _mapper.Map<User>(loginUser);
             var user = _users.Find(x=>x.Email == userModel.Email).FirstOrDefault();

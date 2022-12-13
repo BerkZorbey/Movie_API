@@ -15,7 +15,7 @@ namespace Movie_API.Services
             _users = database.GetCollection<User>("Users");
             
         }
-        public bool IsEmailValid(RegisterDTO user)
+        public bool IsEmailValid(UserRegisterDTO user)
         {
             var email = _users.Find(x => x.Email == user.Email).FirstOrDefault();
             if (email == null)
@@ -24,7 +24,7 @@ namespace Movie_API.Services
             }
             return true;
         }
-        public bool IsUserNameValid(RegisterDTO user)
+        public bool IsUserNameValid(UserRegisterDTO user)
         {
             var userName = _users.Find(x => x.UserName == user.UserName).FirstOrDefault();
             if (userName == null)
@@ -33,7 +33,7 @@ namespace Movie_API.Services
             }
             return true;
         }
-        public bool IsPasswordValid(RegisterDTO user)
+        public bool IsPasswordValid(UserRegisterDTO user)
         {
             var password = user.Password;
             var passwordLength = password.Length;

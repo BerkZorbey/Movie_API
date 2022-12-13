@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Movie_API.Models;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Movie_API.Services
@@ -8,9 +9,12 @@ namespace Movie_API.Services
     public class TokenGeneratorService
     {
         private readonly IConfiguration _configuration;
+        private readonly HttpClient _httpClient;
+
         public TokenGeneratorService(IConfiguration configuration)
         {
             _configuration = configuration;
+            _httpClient = new HttpClient();
         }
         public Token GenerateToken()
         {
@@ -23,7 +27,7 @@ namespace Movie_API.Services
             token.AccessToken = jwtSecurityTokenHandler.WriteToken(tokenOptions);
             token.RefreshToken = Guid.NewGuid().ToString();
             token.RefreshTokenExpiration = expiration.AddHours(1);
-
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
             return token;
         }
         private SigningCredentials GetSecurityKey()

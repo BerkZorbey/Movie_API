@@ -19,10 +19,17 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddControllers();
 
-
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    
+});
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
+    
     options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
         ValidateAudience = true,
@@ -65,6 +72,7 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
+
 builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenGeneratorService>();
@@ -85,7 +93,7 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
-
+app.UseSession();
 app.UseAuthentication();
 
 app.UseAuthorization();

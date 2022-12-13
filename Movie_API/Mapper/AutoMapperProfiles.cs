@@ -11,8 +11,8 @@ namespace Movie_API.Mapper
         {
             CreateMap<MovieDetailDTO, Movie>();
             CreateMap<MovieDurationDTO, Movie>();
-            CreateMap<RegisterDTO, User>();
-            CreateMap<LoginDTO, User>();
+            CreateMap<UserRegisterDTO, User>();
+            CreateMap<UserLoginDTO, User>();
         }
     }
 }

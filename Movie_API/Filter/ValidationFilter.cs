@@ -19,9 +19,9 @@ namespace Movie_API.Filter
             else
             {
                 var user = context.ActionArguments["user"];
-                var checkUserName = _validationService.IsUserNameValid((RegisterDTO)user);
-                var checkEmail = _validationService.IsEmailValid((RegisterDTO)user);
-                var checkPassword = _validationService.IsPasswordValid((RegisterDTO)user);
+                var checkUserName = _validationService.IsUserNameValid((UserRegisterDTO)user);
+                var checkEmail = _validationService.IsEmailValid((UserRegisterDTO)user);
+                var checkPassword = _validationService.IsPasswordValid((UserRegisterDTO)user);
                 var checkConditions = _validationService.IsConditionsValid(checkEmail, checkUserName, checkPassword);
                 if(checkConditions != true)
                 {
