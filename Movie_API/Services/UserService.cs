@@ -32,5 +32,14 @@ namespace Movie_API.Services
             var user = _users.Find(x=>x.Email == userModel.Email).FirstOrDefault();
             return user;
         }
+        public User GetUserById(string Id)
+        {
+            var user = _users.Find(x => x.Id == Id).FirstOrDefault();
+            return user;
+        }
+        public void UpdateUser(User user)
+        {
+            _users.ReplaceOne(x => x.Id == user.Id,user);
+        }
     }
 }

@@ -75,6 +75,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<TokenGeneratorService>();
 builder.Services.AddScoped<ValidationService>();
 builder.Services.AddSingleton(mapper);
